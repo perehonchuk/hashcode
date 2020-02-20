@@ -1,11 +1,13 @@
 package com.company;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner("");
+        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("a_example.txt");
+        Scanner sc = new Scanner(inputStream);
         int books = sc.nextInt();
         int libCount = sc.nextInt();
         int days = sc.nextInt();
