@@ -9,8 +9,11 @@ import java.util.stream.Collectors;
 
 public class Main {
 
+    public static final String FILE_NAME = "a_example";
+
     public static void main(String[] args) {
-        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("a_example.txt");
+
+        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(FILE_NAME + ".txt");
         Scanner sc = new Scanner(inputStream);
         int books = sc.nextInt();
         int libCount = sc.nextInt();
@@ -71,7 +74,7 @@ public class Main {
         }
 
         try {
-            Files.write(Paths.get("out.txt"), stringBuilder.toString().getBytes());
+            Files.write(Paths.get(FILE_NAME + ".out"), stringBuilder.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
