@@ -7,9 +7,11 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
+
 public class Main {
 
-    public static final String FILE_NAME = "a_example";
+    public static final String FILE_NAME = "b_read_on";
 
     public static void main(String[] args) {
 
@@ -30,9 +32,43 @@ public class Main {
         }
 
         Input input = new Input(libraries, days, bookScores);
-        solve(input);
+        solveB(input);
     }
 
+    public static void solveC(Input input) {
+
+    }
+
+    public static void solveB(Input input) {
+        Arrays.sort(input.libraries, Comparator.comparingInt(l -> l.signUpDays));
+
+        int daysLeft = input.days;
+        int currentLib = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(input.libraries.length)
+                .append("\n");
+        for (Library lib: input.libraries) {
+            stringBuilder.append(lib.id)
+                    .append(" ")
+                    .append(lib.booksCount)
+                    .append("\n");
+            stringBuilder.append(
+                    stream(lib.books)
+                            .mapToObj(String::valueOf)
+                            .collect(Collectors.joining(" ")
+                            )
+            );
+            stringBuilder
+                    .append("\n");
+        }
+
+        try {
+            Files.write(Paths.get(FILE_NAME + ".out"), stringBuilder.toString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void solve(Input input) {
         Arrays.sort(input.libraries, Comparator.comparingInt(l -> l.libraryScore));
@@ -44,7 +80,7 @@ public class Main {
             daysLeft -= currentLibrary.signUpDays;
             int countBooksToScan = (daysLeft * currentLibrary.booksPerDay);
             if (daysLeft > 0) {
-                List<Integer> booksToScan = Arrays.stream(currentLibrary.books)
+                List<Integer> booksToScan = stream(currentLibrary.books)
                         .boxed()
                         .sorted(Comparator.comparingInt(b -> input.bookScores[b]))
                         .limit(countBooksToScan)
